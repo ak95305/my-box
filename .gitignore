@@ -1,0 +1,19 @@
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Python byte-compiled files
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+
+# Ignore all __pycache__ directories
+**/__pycache__/
+
+# Python egg info (can include asterisks for additional directories)
+*.egg-info/
