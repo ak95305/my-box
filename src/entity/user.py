@@ -8,8 +8,12 @@ class UserEntity(Base):
     id = Column(Integer, primary_key=True)
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=True)
-    username = Column(String, nullable=False)
+    username = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
+    email = Column(String, nullable=False, unique=True)
+    disk_storage = Column(String, nullable=True)
+    token=Column(String, nullable=True)
+    otp=Column(Integer, nullable=True)
     created_at = Column(DateTime, nullable=True, default=datetime.now)
     updated_at = Column(DateTime, nullable=True, default=datetime.now, onupdate=datetime.now)
 
@@ -23,5 +27,7 @@ class UserEntity(Base):
             "password": self.password,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
-            "token": user_token.to_dict() if user_token else None,
+            "token": self.token,
+            "otp": self.otp,
+            "user_token": user_token.to_dict() if user_token else None,
         }

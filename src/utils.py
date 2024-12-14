@@ -14,6 +14,10 @@ def generate_random_string(length=16):
     characters = string.ascii_letters + string.digits
     return ''.join(random.choices(characters, k=length))
 
+def generate_random_number(length=6):
+    characters = string.digits
+    return ''.join(random.choices(characters, k=length))
+
 def get_bearer_token(request):
     auth_token = request.headers.get('Authorization')
     if(auth_token):

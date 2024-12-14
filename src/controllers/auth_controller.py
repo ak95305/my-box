@@ -1,6 +1,5 @@
 from flask import Response, json, request
 from src.models.user import User
-from src import session
 
 def login():
     data = request.get_json()

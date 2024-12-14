@@ -9,6 +9,36 @@ from src.models.user_token import UserToken
 import src.utils as utils
 
 class User(UserEntity):
+    def __init__(self, data):
+        super().__init__(
+            first_name=data.get('first_name'),
+            last_name=data.get('last_name'),
+            username=data.get('username'),
+            password=data.get('password'),
+            email=data.get('email'),
+            disk_storage=data.get('disk_storage'),
+            token=data.get('token'),
+            otp=data.get('otp')
+        )
+
+
+    def create(data):
+        data['username'] = data['first_name'] + "-" + data['last_name'] + "-" + utils.generate_random_string(5)
+        data['password'] = utils.hash_password(data['password'])
+        data['token'] = utils.generate_random_string(32)
+        data['otp'] = utils.generate_random_number()
+
+        record = User(data)
+
+        try:
+            session.add(record)
+            session.commit()
+
+            return record
+        except Exception as e:
+            return None
+
+
     def get(id):
         try:
             stmt = (
@@ -22,6 +52,20 @@ class User(UserEntity):
             return False
         
     
+    def getRow(where):
+        try:
+            stmt = select(User)
+
+            for key, value in where.items():
+                stmt = stmt.where(getattr(User, key) == value)
+                
+            record = session.scalars(stmt).one_or_none()
+            return record if record else False
+
+        except Exception as e:
+            return False
+
+
     def attemptLogin(username, password):
         try:
             stmt = (
